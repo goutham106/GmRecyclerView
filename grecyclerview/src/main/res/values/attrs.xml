@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017 Gowtham Parimalazhagan
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <declare-styleable name="grv_GmRecyclerView">
+        <attr name="grv_layoutMode" format="enum">
+            <enum name="linearVertical" value="0" />
+            <enum name="linearHorizontal" value="1" />
+            <enum name="grid" value="2" />
+        </attr>
+        <attr name="grv_gridSpanCount" format="integer|reference" />
+        <attr name="grv_gridSpanSequence" format="string|reference" />
+        <attr name="grv_spacing" format="dimension|reference" />
+        <attr name="grv_verticalSpacing" format="dimension|reference" />
+        <attr name="grv_horizontalSpacing" format="dimension|reference" />
+        <attr name="grv_isSpacingIncludeEdge" format="boolean|reference" />
+        <attr name="grv_showDivider" format="boolean|reference" />
+        <attr name="grv_showLastDivider" format="boolean|reference" />
+        <attr name="grv_dividerOrientation" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+            <enum name="both" value="2" />
+        </attr>
+        <attr name="grv_dividerColor" format="color|reference" />
+        <attr name="grv_dividerPaddingLeft" format="dimension|reference" />
+        <attr name="grv_dividerPaddingRight" format="dimension|reference" />
+        <attr name="grv_dividerPaddingTop" format="dimension|reference" />
+        <attr name="grv_dividerPaddingBottom" format="dimension|reference" />
+        <attr name="grv_emptyStateView" format="integer|reference" />
+        <attr name="grv_snappy" format="boolean|reference" />
+        <attr name="grv_snap_alignment" format="enum">
+            <enum name="center" value="0" />
+            <enum name="start" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
