@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017 Gowtham Parimalazhagan
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_layout_modes_spacing" />
+
+    <com.gm.grecyclerview.GmRecyclerView
+        android:id="@+id/linearVerRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:grv_layoutMode="linearVertical"
+        app:grv_spacing="4dp"
+        app:grv_isSpacingIncludeEdge="true" />
+
+    <com.gm.grecyclerview.GmRecyclerView
+        android:id="@+id/linearHorRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:grv_layoutMode="linearHorizontal"
+        app:grv_spacing="4dp" />
+
+    <com.gm.grecyclerview.GmRecyclerView
+        android:id="@+id/gridRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:grv_layoutMode="grid"
+        app:grv_gridSpanCount="3"
+        app:grv_spacing="4dp"
+        app:grv_isSpacingIncludeEdge="true" />
+
+    <com.gm.grecyclerview.GmRecyclerView
+        android:id="@+id/gridSpacingOriRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:grv_layoutMode="grid"
+        app:grv_gridSpanCount="3"
+        app:grv_verticalSpacing="8dp"
+        app:grv_horizontalSpacing="4dp" />
+
+    <com.gm.grecyclerview.GmRecyclerView
+        android:id="@+id/gridSequenceRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:grv_layoutMode="grid"
+        app:grv_gridSpanSequence="31132"
+        app:grv_spacing="4dp" />
+
+</LinearLayout>

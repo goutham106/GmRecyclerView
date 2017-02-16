@@ -23,28 +23,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+
 import com.gm.grecyclerview.GmRecyclerView;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
+@SuppressWarnings("unchecked")
 public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
 
   private SectionHeaderProvider provider;
-  private GmRecyclerView simpleRecyclerView;
+  private GmRecyclerView gmRecyclerView;
   private LinearLayoutManager layoutManager;
   private int sectionHeight;
   private boolean isHeaderOverlapped;
   private int firstHeaderTop;
   private int secondHeaderTop;
   private boolean isClipToPadding;
+  private Class clazz;
 
-  public SectionHeaderItemDecoration(SectionHeaderProvider provider) {
+  public SectionHeaderItemDecoration(Class clazz, SectionHeaderProvider provider) {
+    this.clazz = clazz;
     this.provider = provider;
   }
 
@@ -52,8 +50,8 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
   @Override
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
     // init
-    if (simpleRecyclerView == null) {
-      simpleRecyclerView = ((GmRecyclerView) parent);
+    if (gmRecyclerView == null) {
+      gmRecyclerView = ((GmRecyclerView) parent);
     }
     if (layoutManager == null) {
       layoutManager = (LinearLayoutManager) parent.getLayoutManager();
@@ -61,6 +59,10 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
     isClipToPadding = parent.getClipToPadding();
 
     int position = parent.getChildAdapterPosition(view);
+
+    if (position == NO_POSITION || !isSectionType(position)) {
+      return;
+    }
 
     if (sectionHeight == 0) {
       View sectionHeader = getAndMeasureSectionHeader(parent, position);
@@ -87,6 +89,9 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
       View view = parent.getChildAt(i);
       int position = parent.getChildAdapterPosition(view);
       if (position != NO_POSITION && !isSameSection(position)) {
+        if (!isSectionType(position)) {
+          continue;
+        }
         View sectionHeader = getAndMeasureSectionHeader(parent, position);
         int top = view.getTop() - sectionHeight;
         int bottom = view.getTop();
@@ -131,6 +136,10 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
       return;
     }
 
+    if (!isSectionType(position)) {
+      return;
+    }
+
     int topPadding = isClipToPadding ? parent.getPaddingTop() : 0;
     int left = parent.getPaddingLeft();
     int right = parent.getWidth() - parent.getPaddingRight();
@@ -167,8 +176,8 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
 
   private View getAndMeasureSectionHeader(RecyclerView parent, int position) {
     View sectionHeader = provider.getSectionHeaderView(getItem(position), position);
-    int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY);
-    int heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.AT_MOST);
+    int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.UNSPECIFIED);
+    int heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.UNSPECIFIED);
     sectionHeader.measure(widthSpec, heightSpec);
     return sectionHeader;
   }
@@ -178,11 +187,16 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
       return false;
     }
 
-    return provider.isSameSection(getItem(position), getItem(position - 1));
+    return isSectionType(position) && isSectionType(position - 1) &&
+      provider.isSameSection(getItem(position), getItem(position - 1));
+  }
+
+  private boolean isSectionType(int position) {
+    return clazz.getCanonicalName().equals(getItem(position).getClass().getCanonicalName());
   }
 
   private Object getItem(int position) {
-    return simpleRecyclerView.getCell(position).getItem();
+    return gmRecyclerView.getCell(position).getItem();
   }
 
 }

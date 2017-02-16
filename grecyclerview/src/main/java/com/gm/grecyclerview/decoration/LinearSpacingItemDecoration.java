@@ -21,12 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
 public class LinearSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
   private int spacing;

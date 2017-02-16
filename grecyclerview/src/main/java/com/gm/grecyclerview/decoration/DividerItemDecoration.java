@@ -28,18 +28,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
+import com.gm.grecyclerview.SimpleAdapter;
 import com.gm.grecyclerview.GmRecyclerView;
-import com.gm.grecyclerview.GmAdapter;
 
 import java.util.List;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
   public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
   public static final int VERTICAL = LinearLayout.VERTICAL;
@@ -50,7 +43,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
   private int mOrientation;
 
-  private boolean showLastDivider;
+  private boolean isShowLastDivider;
 
   private final Rect mBounds = new Rect();
 
@@ -74,8 +67,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     mOrientation = orientation;
   }
 
-  public void setShowLastDivider(boolean showLastDivider) {
-    this.showLastDivider = showLastDivider;
+  public void setShowLastDivider(boolean isShowLastDivider) {
+    this.isShowLastDivider = isShowLastDivider;
   }
 
   public void setDrawable(@NonNull Drawable drawable) {
@@ -117,7 +110,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     for (int i = 0; i < childCount; i++) {
       final View child = parent.getChildAt(i);
 
-      if (ignoreDrawDividerForCellTypes(parent, i) || ignoreDrawHorizontalDivider(parent, child)) {
+      if (ignoreDrawDividerForCellTypes(parent, i)) {
+        continue;
+      }
+
+      if (isLastRow(parent, child) && !isShowLastDivider) {
         continue;
       }
 
@@ -137,7 +134,15 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     for (int i = 0; i < childCount; i++) {
       final View child = parent.getChildAt(i);
 
-      if (ignoreDrawDividerForCellTypes(parent, i) || ignoreDrawVerticalDivider(parent, child)) {
+      if (ignoreDrawDividerForCellTypes(parent, i)) {
+        continue;
+      }
+
+      if (isLastColumn(parent, child) && !isShowLastDivider) {
+        continue;
+      }
+
+      if (isLastColumn(parent, child) && isGridMode(parent)) {
         continue;
       }
 
@@ -156,13 +161,14 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                              RecyclerView.State state) {
     if (mOrientation == VERTICAL) {
-      if (ignoreDrawHorizontalDivider(parent, view)) {
+      if (isLastRow(parent, view) && !isShowLastDivider) {
         outRect.set(0, 0, 0, 0);
       } else {
         outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
       }
     } else {
-      if (ignoreDrawVerticalDivider(parent, view)) {
+      if ((isLastColumn(parent, view) && isGridMode(parent)) ||
+        (isLastColumn(parent, view) && !isShowLastDivider)) {
         outRect.set(0, 0, 0, 0);
       } else {
         outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
@@ -179,92 +185,92 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
       return false;
     }
 
-    if (layoutManager == null) {
-      layoutManager = parent.getLayoutManager();
-    }
-
-    if (layoutManager instanceof LinearLayoutManager) {
-      if (linearLayoutManager == null) {
-        linearLayoutManager = (LinearLayoutManager) layoutManager;
-      }
-
-      int pos = linearLayoutManager.findFirstVisibleItemPosition();
+    if (isLinearMode(parent)) {
+      int pos = getLinearLayoutManager().findFirstVisibleItemPosition();
 
       if (pos == -1) {
         return false;
       }
 
-      String type = ((GmAdapter) parent.getAdapter()).getCell(pos + position).getClass().getSimpleName();
+      String type = ((SimpleAdapter) parent.getAdapter()).getCell(pos + position).getClass().getSimpleName();
       return noDividerCellTypes.contains(type);
     }
 
     return false;
   }
 
-  private boolean ignoreDrawVerticalDivider(RecyclerView parent, View view) {
-    if (showLastDivider) {
-      return false;
-    }
-
-    if (layoutManager == null) {
-      layoutManager = parent.getLayoutManager();
-    }
-
+  private boolean isLastColumn(RecyclerView parent, View view) {
     int position = parent.getChildAdapterPosition(view);
     int totalChildCount = parent.getAdapter().getItemCount();
 
-    if (layoutManager instanceof GridLayoutManager) {
-      if (gridLayoutManager == null) {
-        gridLayoutManager = (GridLayoutManager) layoutManager;
-      }
-      int spanCount = gridLayoutManager.getSpanCount();
-      int spanSize = gridLayoutManager.getSpanSizeLookup().getSpanSize(position);
-      int column = gridLayoutManager.getSpanSizeLookup().getSpanIndex(position, spanCount);
-      if (column + spanSize >= spanCount) {
-        return true;
-      }
-    } else if (layoutManager instanceof LinearLayoutManager) {
-      return position == totalChildCount - 1;
+    boolean isLastColumn = false;
+    if (isGridMode(parent)) {
+      int spanCount = getGridLayoutManager().getSpanCount();
+      int spanIndex = getGridLayoutManager().getSpanSizeLookup().getSpanIndex(position, spanCount);
+      int spanSize = getGridLayoutManager().getSpanSizeLookup().getSpanSize(position);
+      isLastColumn = spanIndex == spanCount - spanSize;
+    } else if (isLinearMode(parent)) {
+      isLastColumn = position == totalChildCount - 1;
     }
 
-    return false;
+    return isLastColumn;
   }
 
-  private boolean ignoreDrawHorizontalDivider(RecyclerView parent, View view) {
-    if (showLastDivider) {
-      return false;
-    }
-
-    if (layoutManager == null) {
-      layoutManager = parent.getLayoutManager();
-    }
-
+  private boolean isLastRow(RecyclerView parent, View view) {
     int position = parent.getChildAdapterPosition(view);
     int totalChildCount = parent.getAdapter().getItemCount();
 
-    if (layoutManager instanceof GridLayoutManager) {
-      if (gridLayoutManager == null) {
-        gridLayoutManager = (GridLayoutManager) layoutManager;
-      }
-      int spanCount = gridLayoutManager.getSpanCount();
-      int column = gridLayoutManager.getSpanSizeLookup().getSpanIndex(position, spanCount);
-      int spanSize = gridLayoutManager.getSpanSizeLookup().getSpanSize(position);
+    boolean isLastRow = false;
+    if (isGridMode(parent)) {
+      int spanCount = getGridLayoutManager().getSpanCount();
+      int spanIndex = getGridLayoutManager().getSpanSizeLookup().getSpanIndex(position, spanCount);
+      int spanSize = getGridLayoutManager().getSpanSizeLookup().getSpanSize(position);
+      int column = (spanIndex + spanSize) / spanSize - 1;
       // check if next row first item's index is the last index
-      boolean isLastRow;
       if (spanSize == 1) {
         isLastRow = position + spanCount - column > totalChildCount - 1;
       } else {
-        isLastRow = position + spanSize - column > totalChildCount - 1;
+        int maxColumns = totalChildCount - position + column;
+        int columns = spanCount / spanSize > maxColumns ? maxColumns : spanCount / spanSize;
+        isLastRow = position + columns - column > totalChildCount - 1;
       }
-      if (isLastRow) {
-        return true;
-      }
-    } else if (layoutManager instanceof LinearLayoutManager) {
-      return position == totalChildCount - 1;
+    } else if (isLinearMode(parent)) {
+      isLastRow = position == totalChildCount - 1;
     }
 
-    return false;
+    return isLastRow;
   }
 
+  private boolean isGridMode(RecyclerView parent) {
+    if (layoutManager == null) {
+      layoutManager = parent.getLayoutManager();
+    }
+
+    return layoutManager instanceof GridLayoutManager;
+  }
+
+  private boolean isLinearMode(RecyclerView parent) {
+    if (layoutManager == null) {
+      layoutManager = parent.getLayoutManager();
+    }
+
+    return layoutManager instanceof LinearLayoutManager;
+  }
+
+  public GridLayoutManager getGridLayoutManager() {
+    if (gridLayoutManager == null) {
+      gridLayoutManager = (GridLayoutManager) layoutManager;
+    }
+
+    return gridLayoutManager;
+  }
+
+  public LinearLayoutManager getLinearLayoutManager() {
+    if (linearLayoutManager == null) {
+      linearLayoutManager = (LinearLayoutManager) layoutManager;
+    }
+
+    return linearLayoutManager;
+  }
 }
 

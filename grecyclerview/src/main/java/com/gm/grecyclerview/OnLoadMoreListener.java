@@ -16,12 +16,6 @@
 
 package com.gm.grecyclerview;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
 public interface OnLoadMoreListener {
-    void onLoadMore(GmRecyclerView simpleRecyclerView);
+  void onLoadMore(GmRecyclerView gmRecyclerView);
 }

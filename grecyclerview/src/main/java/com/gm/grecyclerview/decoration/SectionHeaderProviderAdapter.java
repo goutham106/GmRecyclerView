@@ -19,12 +19,6 @@ package com.gm.grecyclerview.decoration;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
 public abstract class SectionHeaderProviderAdapter<T> implements SectionHeaderProvider<T> {
 
   @NonNull

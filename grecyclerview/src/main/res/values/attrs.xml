@@ -16,7 +16,7 @@
   -->
 
 <resources>
-    <declare-styleable name="grv_GmRecyclerView">
+    <declare-styleable name="grv_GRecyclerView">
         <attr name="grv_layoutMode" format="enum">
             <enum name="linearVertical" value="0" />
             <enum name="linearHorizontal" value="1" />
@@ -41,6 +41,7 @@
         <attr name="grv_dividerPaddingTop" format="dimension|reference" />
         <attr name="grv_dividerPaddingBottom" format="dimension|reference" />
         <attr name="grv_emptyStateView" format="integer|reference" />
+        <attr name="grv_loadMoreView" format="integer|reference" />
         <attr name="grv_snappy" format="boolean|reference" />
         <attr name="grv_snap_alignment" format="enum">
             <enum name="center" value="0" />

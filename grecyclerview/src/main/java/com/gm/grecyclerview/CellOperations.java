@@ -18,51 +18,44 @@ package com.gm.grecyclerview;
 
 import java.util.List;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
-public interface CellOperations {
+interface CellOperations {
 
-    void addCell(GmCell cell);
+  void addCell(SimpleCell cell);
 
-    void addCell(int atPosition, GmCell cell);
+  void addCell(int atPosition, SimpleCell cell);
 
-    void addCells(List<? extends GmCell> cells);
+  void addCells(List<? extends SimpleCell> cells);
 
-    void addCells(GmCell... cells);
+  void addCells(SimpleCell... cells);
 
-    void addCells(int fromPosition, List<? extends GmCell> cells);
+  void addCells(int fromPosition, List<? extends SimpleCell> cells);
 
-    void addCells(int fromPosition, GmCell... cells);
+  void addCells(int fromPosition, SimpleCell... cells);
 
-    <T extends GmCell & Updatable> void addOrUpdateCell(T cell);
+  <T extends SimpleCell & Updatable> void addOrUpdateCell(T cell);
 
-    <T extends GmCell & Updatable> void addOrUpdateCells(List<T> cells);
+  <T extends SimpleCell & Updatable> void addOrUpdateCells(List<T> cells);
 
-    <T extends GmCell & Updatable> void addOrUpdateCells(T... cells);
+  <T extends SimpleCell & Updatable> void addOrUpdateCells(T... cells);
 
-    void removeCell(GmCell cell);
+  void removeCell(SimpleCell cell);
 
-    void removeCell(int atPosition);
+  void removeCell(int atPosition);
 
-    void removeCells(int fromPosition, int toPosition);
+  void removeCells(int fromPosition, int toPosition);
 
-    void removeCells(int fromPosition);
+  void removeCells(int fromPosition);
 
-    void removeAllCells();
+  void removeAllCells();
 
-    void updateCell(int atPosition, Object payload);
+  void updateCell(int atPosition, Object payload);
 
-    void updateCells(int fromPosition, int toPosition, List<Object> payloads);
+  void updateCells(int fromPosition, int toPosition, List<Object> payloads);
 
-    GmCell getCell(int atPosition);
+  SimpleCell getCell(int atPosition);
 
-    List<GmCell> getCells(int fromPosition, int toPosition);
+  List<SimpleCell> getCells(int fromPosition, int toPosition);
 
-    List<GmCell> getAllCells();
+  List<SimpleCell> getAllCells();
 
 }
-

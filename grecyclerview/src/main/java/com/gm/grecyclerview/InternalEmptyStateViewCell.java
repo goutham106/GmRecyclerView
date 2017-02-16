@@ -21,36 +21,30 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
-class InternalEmptyStateViewCell extends GmCell<View, GmViewHolder> {
+class InternalEmptyStateViewCell extends SimpleCell<View, SimpleViewHolder> {
 
-    InternalEmptyStateViewCell(View view) {
-        super(view);
-    }
+  InternalEmptyStateViewCell(View view) {
+    super(view);
+  }
 
-    @Override
-    public int getLayoutRes() {
-        return R.layout.grv_interval_view;
-    }
+  @Override
+  public int getLayoutRes() {
+    return R.layout.grv_interval_view;
+  }
 
-    @NonNull
-    @Override
-    public GmViewHolder onCreateViewHolder(ViewGroup parent, View cellView) {
-        return new GmViewHolder(getItem());
-    }
+  @NonNull
+  @Override
+  public SimpleViewHolder onCreateViewHolder(ViewGroup parent, View cellView) {
+    return new SimpleViewHolder(getItem());
+  }
 
-    @Override
-    public void onBindViewHolder(GmViewHolder holder, int position, Context context, Object payload) {
-    }
+  @Override
+  public void onBindViewHolder(SimpleViewHolder holder, int position, Context context, Object payload) {
+  }
 
-    @Override
-    protected long getItemId() {
-        return getItem().getId();
-    }
+  @Override
+  protected long getItemId() {
+    return getItem().getId();
+  }
 
 }

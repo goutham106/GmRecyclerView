@@ -16,16 +16,10 @@
 
 package com.gm.grecyclerview;
 
-/**
- * Name       : Gowtham
- * Created on : 15/2/17.
- * Email      : goutham.gm11@gmail.com
- * GitHub     : https://github.com/goutham106
- */
 public interface Updatable<T> {
 
-    boolean areContentsTheSame(T newItem);
+  boolean areContentsTheSame(T newItem);
 
-    Object getChangePayload(T newItem);
+  Object getChangePayload(T newItem);
 
 }
