@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'grecyclerview'
+
+    publishedGroupId = 'com.github.goutham106'
+    libraryName = 'GMRECYCLERVIEW'
+    artifact = 'grecyclerview'
+
+    libraryDescription = 'It is a recyclerview with its maximum behaviours, in a single library.'
+
+    siteUrl = 'https://github.com/goutham106/GmRecyclerView'
+    gitUrl = 'https://github.com/goutham106/GmRecyclerView.git'
+
+    libraryVersion = '0.1'
+
+    developerId = 'goutham106'
+    developerName = 'Gowtham Parimalazhagan'
+    developerEmail = 'goutham.gm11@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -22,5 +46,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:recyclerview-v7:25.1.0'
-
 }
+apply from: 'https://raw.githubusercontent.com/goutham106/Jcentergradles/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/goutham106/Jcentergradles/master/bintrayv1.gradle'
+
