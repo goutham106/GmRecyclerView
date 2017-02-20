@@ -82,6 +82,7 @@ public class GmRecyclerView extends RecyclerView
   private boolean isSnappyEnabled;
   private int snapAlignment;
   private int emptyStateViewRes;
+  private boolean showEmptyStateView;
   private int loadMoreViewRes;
 
   private SimpleAdapter adapter;
@@ -154,6 +155,7 @@ public class GmRecyclerView extends RecyclerView
     dividerPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.grv_GRecyclerView_grv_dividerPaddingBottom, 0);
     isSnappyEnabled = typedArray.getBoolean(R.styleable.grv_GRecyclerView_grv_snappy, false);
     snapAlignment = typedArray.getInt(R.styleable.grv_GRecyclerView_grv_snap_alignment, 0);
+    showEmptyStateView = typedArray.getBoolean(R.styleable.grv_GRecyclerView_grv_showEmptyStateView, false);
     emptyStateViewRes = typedArray.getResourceId(R.styleable.grv_GRecyclerView_grv_emptyStateView, 0);
     loadMoreViewRes = typedArray.getResourceId(R.styleable.grv_GRecyclerView_grv_loadMoreView, 0);
     typedArray.recycle();
@@ -203,6 +205,9 @@ public class GmRecyclerView extends RecyclerView
   private void setupEmptyView() {
     if (emptyStateViewRes != 0) {
       setEmptyStateView(emptyStateViewRes);
+    }
+    if (showEmptyStateView) {
+      showEmptyStateView();
     }
   }
 
@@ -543,7 +548,7 @@ public class GmRecyclerView extends RecyclerView
     adapter.registerAdapterDataObserver(adapterDataObserver);
   }
 
-  private void showEmptyStateView() {
+  public void showEmptyStateView() {
     if (isRefreshing) {
       isRefreshing = false;
       return;
@@ -558,7 +563,7 @@ public class GmRecyclerView extends RecyclerView
     isEmptyViewShown = true;
   }
 
-  private void hideEmptyStateView() {
+  public void hideEmptyStateView() {
     if (!isEmptyViewShown || emptyStateViewCell == null) {
       return;
     }

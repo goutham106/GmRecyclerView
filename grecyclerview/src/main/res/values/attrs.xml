@@ -41,6 +41,7 @@
         <attr name="grv_dividerPaddingTop" format="dimension|reference" />
         <attr name="grv_dividerPaddingBottom" format="dimension|reference" />
         <attr name="grv_emptyStateView" format="integer|reference" />
+        <attr name="grv_showEmptyStateView" format="boolean|reference" />
         <attr name="grv_loadMoreView" format="integer|reference" />
         <attr name="grv_snappy" format="boolean|reference" />
         <attr name="grv_snap_alignment" format="enum">
