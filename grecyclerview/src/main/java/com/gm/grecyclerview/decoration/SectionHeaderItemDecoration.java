@@ -31,7 +31,7 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
 
   private SectionHeaderProvider provider;
-  private GmRecyclerView simpleRecyclerView;
+  private GmRecyclerView gmRecyclerView;
   private LinearLayoutManager layoutManager;
   private int sectionHeight;
   private boolean isHeaderOverlapped;
@@ -49,8 +49,8 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
   @Override
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
     // init
-    if (simpleRecyclerView == null) {
-      simpleRecyclerView = ((GmRecyclerView) parent);
+    if (gmRecyclerView == null) {
+      gmRecyclerView = ((GmRecyclerView) parent);
     }
     if (layoutManager == null) {
       layoutManager = (LinearLayoutManager) parent.getLayoutManager();
@@ -202,7 +202,7 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
   }
 
   private Object getItem(int position) {
-    return simpleRecyclerView.getCell(position).getItem();
+    return gmRecyclerView.getCell(position).getItem();
   }
 
 }
