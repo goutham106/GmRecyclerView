@@ -80,7 +80,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder>
 
     holder.bind(cell);
 
-    if (cell.getOnCellClickListener2() != null) {
+    if (cell.getOnCellClickListener() != null) {
       holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -107,6 +107,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder>
         }
       });
     }
+
     if (cell.getOnCellLongClickListener2() != null) {
       holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
         @Override
@@ -154,6 +155,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder>
   private void addCellType(SimpleCell cell) {
     if (!isCellTypeAdded(cell)) {
       cellTypeMap.put(cell.getLayoutRes(), cell);
+    }
+  }
+
+  private void addCellTypes(List<SimpleCell> cells) {
+    for (SimpleCell cell : cells) {
+      addCellType(cell);
     }
   }
 
@@ -317,6 +324,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder>
   void setCells(List<? extends SimpleCell> cells) {
     this.cells.clear();
     this.cells.addAll(cells);
+    addCellTypes(this.cells);
   }
 
   @Override

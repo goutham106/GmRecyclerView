@@ -23,16 +23,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-
 import com.gm.grecyclerview.GmRecyclerView;
-
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
+
 
 @SuppressWarnings("unchecked")
 public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
 
   private SectionHeaderProvider provider;
-  private GmRecyclerView gmRecyclerView;
+  private GmRecyclerView simpleRecyclerView;
   private LinearLayoutManager layoutManager;
   private int sectionHeight;
   private boolean isHeaderOverlapped;
@@ -50,8 +49,8 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
   @Override
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
     // init
-    if (gmRecyclerView == null) {
-      gmRecyclerView = ((GmRecyclerView) parent);
+    if (simpleRecyclerView == null) {
+      simpleRecyclerView = ((GmRecyclerView) parent);
     }
     if (layoutManager == null) {
       layoutManager = (LinearLayoutManager) parent.getLayoutManager();
@@ -188,15 +187,22 @@ public class SectionHeaderItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     return isSectionType(position) && isSectionType(position - 1) &&
-      provider.isSameSection(getItem(position), getItem(position - 1));
+            provider.isSameSection(getItem(position), getItem(position - 1));
   }
 
   private boolean isSectionType(int position) {
-    return clazz.getCanonicalName().equals(getItem(position).getClass().getCanonicalName());
+    Class<?> aClass = getItem(position).getClass();
+
+    // handle realm proxy class
+    if (aClass.getName().endsWith("Proxy")) {
+      aClass = aClass.getSuperclass();
+    }
+
+    return clazz.getCanonicalName().equals(aClass.getCanonicalName());
   }
 
   private Object getItem(int position) {
-    return gmRecyclerView.getCell(position).getItem();
+    return simpleRecyclerView.getCell(position).getItem();
   }
 
 }
